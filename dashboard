@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Evergreen Calculator Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+    color:#fff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Container */
+.dashboard{
+    width:95%;
+    max-width:900px;
+    text-align:center;
+}
+
+/* Logo */
+.logo{
+    display:flex;
+    justify-content:center;
+    margin-bottom:10px;
+}
+.logo img{
+    width:90px;
+    height:90px;
+    animation: float 3s ease-in-out infinite;
+}
+@keyframes float{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
+    100%{transform:translateY(0)}
+}
+
+/* Title */
+h1{
+    margin:10px 0 30px;
+    font-weight:600;
+    letter-spacing:1px;
+    text-shadow:0 0 10px #00ffcc;
+}
+
+/* Cards Grid */
+.cards{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap:20px;
+}
+
+/* Card */
+.card{
+    background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(0,0,0,0.3));
+    border-radius:16px;
+    padding:30px 20px;
+    text-decoration:none;
+    color:#fff;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.6),
+        inset 0 0 15px rgba(0,255,204,0.2);
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+}
+
+/* Hover Neon 3D Effect */
+.card:hover{
+    transform: translateY(-12px) scale(1.03);
+    box-shadow:
+        0 20px 50px rgba(0,255,204,0.7),
+        inset 0 0 25px rgba(0,255,204,0.4);
+}
+
+/* Card Title */
+.card h3{
+    margin:0 0 10px;
+    font-size:20px;
+    text-shadow:0 0 8px #00ffcc;
+}
+
+/* Card Text */
+.card p{
+    font-size:14px;
+    opacity:0.9;
+}
+
+/* Footer */
+.footer{
+    margin-top:30px;
+    font-size:13px;
+    opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- Logo -->
+    <div class="logo">
+        <img src="logo.png" alt="Evergreen Logo">
+    </div>
+
+    <h1>Evergreen Calculator Dashboard</h1>
+
+    <!-- Project Links -->
+    <div class="cards">
+
+        <a href="https://smr-web-coding.github.io/evergreen-credit-cal/" class="card" target="_blank">
+            <h3>TDS Balance Calculator</h3>
+            <p>Variable lot, KG & GST calculation</p>
+        </a>
+
+        <a href="https://your-github-link-2" class="card" target="_blank">
+            <h3>Invoice Calculator</h3>
+            <p>Taxable value, GST & invoice total</p>
+        </a>
+
+        <a href="https://your-github-link-3" class="card" target="_blank">
+            <h3>Balance Calculator</h3>
+            <p>Received, balance & TDS logic</p>
+        </a>
+
+        <!-- Optional 4th Card -->
+        <a href="#" class="card">
+            <h3>Coming Soon</h3>
+            <p>More Evergreen tools</p>
+        </a>
+
+    </div>
+
+    <div class="footer">
+        © Evergreen E-Waste Recycling Management
+    </div>
+
+</div>
+
+</body>
+</html>
