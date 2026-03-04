@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Invoice Calculator</title>
 
@@ -10,56 +11,79 @@ body{
     background:#f2f2f2;
     display:flex;
     justify-content:center;
-    align-items:center;
-    height:100vh;
+    align-items:flex-start;
+    min-height:100vh;
+    padding:10px;
 }
+
 .container{
     background:white;
-    padding:30px;
+    padding:20px;
     border-radius:10px;
     box-shadow:0 0 10px rgba(0,0,0,0.2);
-    width:350px;
+    width:100%;
+    max-width:380px;
 }
-h2{ text-align:center; }
+
+img{
+    display:block;
+    margin:0 auto 10px;
+}
+
+h4{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+label{
+    font-size:14px;
+}
+
 input{
     width:100%;
-    padding:8px;
-    margin:5px 0 15px;
+    padding:10px;
+    margin:6px 0 14px;
     font-size:16px;
+    box-sizing:border-box;
 }
+
 .result{
     background:#ffffcc;
     padding:10px;
-    margin:5px 0;
+    margin:6px 0;
     font-weight:bold;
+    font-size:14px;
 }
+
 .balance{
     background:#009e2f;
     padding:10px;
-    margin:5px 0;
-    color:#f2f2f2;
+    margin:6px 0;
+    color:#fff;
     font-weight:bold;
+    font-size:15px;
+    text-align:center;
 }
+
 .print-btn{
     width:100%;
-    padding:10px;
+    padding:12px;
     margin-top:15px;
     background:#0066cc;
     color:#fff;
     font-size:16px;
     border:none;
+    border-radius:6px;
     cursor:pointer;
-    border-radius:5px;
 }
 
-/* Hide button while printing */
-@media print{
-    .print-btn{
-        display:none;
-    }
+/* Desktop improvement */
+@media (min-width:768px){
     body{
-        background:#fff;
-        height:auto;
+        align-items:center;
+    }
+    .container{
+        padding:30px;
     }
 }
 </style>
@@ -114,4 +138,5 @@ document.getElementById("balance").innerText = balance.toFixed(2);
 </script>
 
 </body>
+
 </html>
