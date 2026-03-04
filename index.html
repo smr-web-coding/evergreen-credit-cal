@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Invoice Calculator</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    width:350px;
+}
+h2{ text-align:center; }
+input{
+    width:100%;
+    padding:8px;
+    margin:5px 0 15px;
+    font-size:16px;
+}
+.result{
+    background:#ffffcc;
+    padding:10px;
+    margin:5px 0;
+    font-weight:bold;
+}
+.balance{
+    background:#009e2f;
+    padding:10px;
+    margin:5px 0;
+    color:#f2f2f2;
+    font-weight:bold;
+}
+.print-btn{
+    width:100%;
+    padding:10px;
+    margin-top:15px;
+    background:#0066cc;
+    color:#fff;
+    font-size:16px;
+    border:none;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+/* Hide button while printing */
+@media print{
+    .print-btn{
+        display:none;
+    }
+    body{
+        background:#fff;
+        height:auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="invoice">
+    <img height="80px" width="80px" src="logo.png" alt="">
+    <h4>Evergreen E-Waste Recycling Management</h4>
+
+    <label>Quantity</label>
+    <input type="number" id="qty" oninput="calc()">
+
+    <label>Rate</label>
+    <input type="number" id="rate" oninput="calc()">
+
+    <label>Received</label>
+    <input type="number" id="rcv" oninput="calc()">
+
+    <div class="result">Taxable Value: <span id="taxable">0</span></div>
+    <div class="result">GST 18%: <span id="gst">0</span></div>
+    <div class="result">Invoice Value: <span id="invoiceVal">0</span></div>
+    <div class="result">TDS 1% (on taxable): <span id="tds">0</span></div>
+    <div class="result">Final Amount (Invoice - TDS): <span id="final">0</span></div>
+    <div class="balance">Balance Amount: <span id="balance">0</span></div>
+
+    <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+<script>
+function calc(){
+
+let qty = parseFloat(document.getElementById("qty").value) || 0;
+let rate = parseFloat(document.getElementById("rate").value) || 0;
+let rcv = parseFloat(document.getElementById("rcv").value) || 0;
+
+let taxable = qty * rate;
+let gst = taxable * 0.18;
+let invoice = taxable + gst;
+let tds = taxable * 0.01;
+let final = invoice - tds;
+let balance = rcv - final;
+
+document.getElementById("taxable").innerText = taxable.toFixed(2);
+document.getElementById("gst").innerText = gst.toFixed(2);
+document.getElementById("invoiceVal").innerText = invoice.toFixed(2);
+document.getElementById("tds").innerText = tds.toFixed(2);
+document.getElementById("final").innerText = final.toFixed(2);
+document.getElementById("balance").innerText = balance.toFixed(2);
+}
+</script>
+
+</body>
+</html>
