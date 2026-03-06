@@ -8,22 +8,33 @@
 
 <style>
 
-body{
-font-family:Arial;
-background:#f2f2f2;
-display:flex;
-justify-content:center;
-padding:10px;
+*{
+box-sizing:border-box;
 }
 
+body{
+font-family:Arial;
+background:linear-gradient(145deg,#2b1d0e,#4a2e13);
+display:flex;
+justify-content:center;
+padding:15px;
+min-height:100vh;
+}
+
+/* MAIN CARD */
+
 .container{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+background:#fff8e6;
+padding:25px;
+border-radius:14px;
+box-shadow:
+0 0 15px rgba(255,215,0,0.6),
+0 0 30px rgba(139,69,19,0.5);
 width:100%;
 max-width:520px;
 }
+
+/* LOGO */
 
 img{
 display:block;
@@ -31,57 +42,120 @@ margin:auto;
 margin-bottom:10px;
 }
 
+/* TITLE */
+
 h3{
 text-align:center;
+margin-bottom:20px;
+color:#5a2e00;
+text-shadow:0 0 8px gold;
 }
+
+/* LABEL */
 
 label{
 font-size:14px;
+font-weight:bold;
+color:#5a2e00;
 }
+
+/* INPUT */
 
 input{
 width:100%;
-padding:10px;
-margin:6px 0 14px;
+padding:12px;
+margin:6px 0 16px;
 font-size:16px;
+border-radius:8px;
+border:2px solid #caa55a;
+background:#fffdf6;
+box-shadow:
+inset 0 2px 6px rgba(0,0,0,0.15);
 }
+
+/* RESULT BOX */
 
 .result{
-background:#ffffcc;
-padding:10px;
+background:linear-gradient(145deg,#fff3c4,#f5d87a);
+padding:12px;
 margin:6px 0;
 font-weight:bold;
+border-radius:8px;
+box-shadow:
+0 0 6px rgba(255,215,0,0.7);
 }
 
+/* BALANCE */
+
 .balance{
-background:#009e2f;
-padding:10px;
-margin:6px 0;
+background:linear-gradient(145deg,#009e2f,#00c941);
+padding:14px;
+margin:10px 0;
 color:white;
 font-weight:bold;
 text-align:center;
+border-radius:8px;
+font-size:17px;
+box-shadow:
+0 0 12px #00ff73;
 }
 
+/* EXTRA SECTION */
+
 .extra{
-background:#e8f5ff;
-padding:10px;
+background:linear-gradient(145deg,#fff7d1,#e8c96c);
+padding:12px;
 margin:6px 0;
 font-weight:bold;
+border-radius:8px;
+box-shadow:
+0 0 6px rgba(255,215,0,0.6);
 }
+
+/* BUTTON */
 
 button{
 width:100%;
-padding:12px;
-margin-top:10px;
-background:#0066cc;
+padding:14px;
+margin-top:15px;
+background:linear-gradient(145deg,#8b5a00,#cfa42d);
 color:white;
 border:none;
-border-radius:6px;
+border-radius:10px;
 font-size:16px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:
+0 0 10px rgba(255,215,0,0.8);
+}
+
+/* BUTTON HOVER */
+
+button:hover{
+transform:scale(1.03);
+}
+
+/* MOBILE */
+
+@media (max-width:480px){
+
+.container{
+padding:18px;
+}
+
+h3{
+font-size:18px;
+}
+
+input{
+font-size:15px;
+}
+
 }
 
 </style>
 </head>
+
 
 <body>
 
@@ -114,12 +188,12 @@ font-size:16px;
 <div class="extra">Extra TDS 1%: <span id="b_tds">0</span></div>
 <div class="extra">Extra Invoice: <span id="b_invoice">0</span></div>
 
-
 <div class="extra">Remaining Amount: <span id="remain">0</span></div>
 
 <button onclick="window.print()">Print / Save PDF</button>
 
 </div>
+
 
 
 <script>
@@ -145,8 +219,6 @@ document.getElementById("final").innerText=final.toFixed(2);
 document.getElementById("balance").innerText=balance.toFixed(2);
 
 
-/* EXTRA QUANTITY CALCULATION */
-
 /* BALANCE SETTLEMENT */
 
 let b_tax=0;
@@ -160,10 +232,7 @@ if(balance>0 && rate>0){
 
 let approx_tax=balance/1.17;
 
-/* quantity possible */
 more_qty=Math.floor(approx_tax/rate);
-
-/* recalc using real quantity */
 
 b_tax=more_qty*rate;
 b_gst=b_tax*0.18;
