@@ -1,142 +1,191 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Invoice Calculator</title>
+<title>Evergreen Settlement Calculator</title>
 
 <style>
+
 body{
-    font-family: Arial;
-    background:#f2f2f2;
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    min-height:100vh;
-    padding:10px;
+font-family:Arial;
+background:#f2f2f2;
+display:flex;
+justify-content:center;
+padding:10px;
 }
 
 .container{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,0.2);
-    width:100%;
-    max-width:380px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+width:100%;
+max-width:520px;
 }
 
 img{
-    display:block;
-    margin:0 auto 10px;
+display:block;
+margin:auto;
+margin-bottom:10px;
 }
 
-h4{
-    text-align:center;
-    margin-bottom:15px;
+h3{
+text-align:center;
 }
 
 label{
-    font-size:14px;
+font-size:14px;
 }
 
 input{
-    width:100%;
-    padding:10px;
-    margin:6px 0 14px;
-    font-size:16px;
-    box-sizing:border-box;
+width:100%;
+padding:10px;
+margin:6px 0 14px;
+font-size:16px;
 }
 
 .result{
-    background:#ffffcc;
-    padding:10px;
-    margin:6px 0;
-    font-weight:bold;
-    font-size:14px;
+background:#ffffcc;
+padding:10px;
+margin:6px 0;
+font-weight:bold;
 }
 
 .balance{
-    background:#009e2f;
-    padding:10px;
-    margin:6px 0;
-    color:#fff;
-    font-weight:bold;
-    font-size:15px;
-    text-align:center;
+background:#009e2f;
+padding:10px;
+margin:6px 0;
+color:white;
+font-weight:bold;
+text-align:center;
 }
 
-.print-btn{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    background:#0066cc;
-    color:#fff;
-    font-size:16px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
+.extra{
+background:#e8f5ff;
+padding:10px;
+margin:6px 0;
+font-weight:bold;
 }
 
-/* Desktop improvement */
-@media (min-width:768px){
-    body{
-        align-items:center;
-    }
-    .container{
-        padding:30px;
-    }
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#0066cc;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="container" id="invoice">
-    <img height="80px" width="80px" src="logo.png" alt="">
-    <h4>Evergreen E-Waste Recycling Management</h4>
+<div class="container">
 
-    <label>Quantity</label>
-    <input type="number" id="qty" oninput="calc()">
+<img src="logo.png" height="80">
 
-    <label>Rate</label>
-    <input type="number" id="rate" oninput="calc()">
+<h3>Evergreen E-Waste Recycling Management</h3>
 
-    <label>Received</label>
-    <input type="number" id="rcv" oninput="calc()">
+<label>Quantity</label>
+<input type="number" id="qty" oninput="calc()">
 
-    <div class="result">Taxable Value: <span id="taxable">0</span></div>
-    <div class="result">GST 18%: <span id="gst">0</span></div>
-    <div class="result">Invoice Value: <span id="invoiceVal">0</span></div>
-    <div class="result">TDS 1% (on taxable): <span id="tds">0</span></div>
-    <div class="result">Final Amount (Invoice - TDS): <span id="final">0</span></div>
-    <div class="balance">Balance Amount: <span id="balance">0</span></div>
+<label>Rate</label>
+<input type="number" id="rate" oninput="calc()">
 
-    <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+<label>Received</label>
+<input type="number" id="rcv" oninput="calc()">
+
+<div class="result">Taxable Value: <span id="taxable">0</span></div>
+<div class="result">GST 18%: <span id="gst">0</span></div>
+<div class="result">Invoice Value: <span id="invoice">0</span></div>
+<div class="result">TDS 1%: <span id="tds">0</span></div>
+<div class="result">Final Amount: <span id="final">0</span></div>
+
+<div class="balance">Balance Amount: <span id="balance">0</span></div>
+
+<div class="extra">More Quantity Possible: <span id="more_qty">0</span></div>
+<div class="extra">Extra Taxable From Balance: <span id="b_tax">0</span></div>
+<div class="extra">Extra GST 18%: <span id="b_gst">0</span></div>
+<div class="extra">Extra TDS 1%: <span id="b_tds">0</span></div>
+<div class="extra">Extra Invoice: <span id="b_invoice">0</span></div>
+
+
+<div class="extra">Remaining Amount: <span id="remain">0</span></div>
+
+<button onclick="window.print()">Print / Save PDF</button>
+
 </div>
 
+
 <script>
+
 function calc(){
 
-let qty = parseFloat(document.getElementById("qty").value) || 0;
-let rate = parseFloat(document.getElementById("rate").value) || 0;
-let rcv = parseFloat(document.getElementById("rcv").value) || 0;
+let qty=parseFloat(document.getElementById("qty").value)||0;
+let rate=parseFloat(document.getElementById("rate").value)||0;
+let rcv=parseFloat(document.getElementById("rcv").value)||0;
 
-let taxable = qty * rate;
-let gst = taxable * 0.18;
-let invoice = taxable + gst;
-let tds = taxable * 0.01;
-let final = invoice - tds;
-let balance = rcv - final;
+let taxable=qty*rate;
+let gst=taxable*0.18;
+let invoice=taxable+gst;
+let tds=taxable*0.01;
+let final=invoice-tds;
+let balance=rcv-final;
 
-document.getElementById("taxable").innerText = taxable.toFixed(2);
-document.getElementById("gst").innerText = gst.toFixed(2);
-document.getElementById("invoiceVal").innerText = invoice.toFixed(2);
-document.getElementById("tds").innerText = tds.toFixed(2);
-document.getElementById("final").innerText = final.toFixed(2);
-document.getElementById("balance").innerText = balance.toFixed(2);
+document.getElementById("taxable").innerText=taxable.toFixed(2);
+document.getElementById("gst").innerText=gst.toFixed(2);
+document.getElementById("invoice").innerText=invoice.toFixed(2);
+document.getElementById("tds").innerText=tds.toFixed(2);
+document.getElementById("final").innerText=final.toFixed(2);
+document.getElementById("balance").innerText=balance.toFixed(2);
+
+
+/* EXTRA QUANTITY CALCULATION */
+
+/* BALANCE SETTLEMENT */
+
+let b_tax=0;
+let b_gst=0;
+let b_tds=0;
+let b_invoice=0;
+let more_qty=0;
+let remain=0;
+
+if(balance>0 && rate>0){
+
+let approx_tax=balance/1.17;
+
+/* quantity possible */
+more_qty=Math.floor(approx_tax/rate);
+
+/* recalc using real quantity */
+
+b_tax=more_qty*rate;
+b_gst=b_tax*0.18;
+b_tds=b_tax*0.01;
+b_invoice=b_tax+b_gst;
+
+let used_final=b_invoice-b_tds;
+
+remain=balance-used_final;
+
 }
+
+document.getElementById("b_tax").innerText=b_tax.toFixed(2);
+document.getElementById("b_gst").innerText=b_gst.toFixed(2);
+document.getElementById("b_tds").innerText=b_tds.toFixed(2);
+document.getElementById("b_invoice").innerText=b_invoice.toFixed(2);
+document.getElementById("more_qty").innerText=more_qty;
+document.getElementById("remain").innerText=remain.toFixed(2);
+
+}
+
 </script>
 
 </body>
-
 </html>
