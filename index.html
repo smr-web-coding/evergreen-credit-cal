@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-
 <title>Evergreen Settlement Calculator</title>
 
 <style>
-
 *{
 box-sizing:border-box;
 margin:0;
@@ -26,41 +23,51 @@ min-height:100vh;
 color:white;
 }
 
-/* MAIN CARD */
-
 .container{
 background:rgba(15,40,50,0.7);
 padding:25px;
 border-radius:14px;
 backdrop-filter:blur(12px);
-box-shadow:
-0 0 20px rgba(0,255,170,0.2),
-0 0 40px rgba(0,255,170,0.15);
+box-shadow:0 0 20px rgba(0,255,170,0.2);
 width:100%;
 max-width:520px;
 border:1px solid rgba(0,255,170,0.2);
 }
 
 /* LOGO */
-
-img{
+.logo{
 display:block;
 margin:auto;
-margin-bottom:10px;
+margin-bottom:12px;
+height:70px;
+}
+
+/* EDITABLE COMPANY NAME */
+.company-name{
+text-align:center;
+margin-bottom:14px;
+padding:10px;
+border:1px solid rgba(0,255,195,0.4);
+border-radius:8px;
+color:#bac700;
+
+outline:none;
+cursor:text;
+}
+
+.company-name:empty:before{
+content:"Click to Enter Company Name";
+color:#7fffd4;
 }
 
 /* TITLE */
-
 h3{
 text-align:center;
 margin-bottom:20px;
 color:#7fffd4;
-font-size:22px;
-text-shadow:0 0 10px #00ffc3;
 }
 
 /* LABEL */
-
 label{
 font-size:14px;
 font-weight:bold;
@@ -68,7 +75,6 @@ color:#7fffd4;
 }
 
 /* INPUT */
-
 input{
 width:100%;
 padding:12px;
@@ -81,8 +87,7 @@ color:white;
 outline:none;
 }
 
-/* RESULT BOX */
-
+/* RESULT */
 .result{
 background:linear-gradient(135deg,#0f3a42,#12535d);
 padding:12px;
@@ -92,12 +97,10 @@ border-radius:8px;
 }
 
 /* BALANCE */
-
 .balance{
 background:linear-gradient(135deg,#009c68,#00d487);
 padding:14px;
 margin:12px 0;
-color:white;
 font-weight:bold;
 text-align:center;
 border-radius:10px;
@@ -105,7 +108,6 @@ font-size:18px;
 }
 
 /* EXTRA */
-
 .extra{
 background:linear-gradient(135deg,#0d3138,#15464f);
 padding:12px;
@@ -115,13 +117,11 @@ border-radius:8px;
 }
 
 /* BUTTON */
-
 button{
 width:100%;
 padding:14px;
 margin-top:15px;
 background:linear-gradient(135deg,#00b894,#00e0a8);
-color:black;
 border:none;
 border-radius:10px;
 font-size:16px;
@@ -129,79 +129,28 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* PRINT SETTINGS */
-
+/* PRINT */
 @media print{
-
-body{
-background:white;
-color:black;
+.no-print{display:none;}
+input{border:none;background:none;color:black;}
+.result,.extra,.balance{background:white;color:black;border:1px solid black;}
+body{background:white;color:black;}
 }
-
-.container{
-box-shadow:none;
-border:none;
-width:100%;
-max-width:100%;
-padding:10px;
-}
-
-.no-print{
-display:none;
-}
-
-input{
-border:none;
-background:none;
-color:black;
-}
-
-.result,
-.extra,
-.balance{
-background:white;
-border:1px solid black;
-color:black;
-}
-
-@page{
-size:A4;
-margin:10mm;
-}
-
-}
-
-/* MOBILE */
-
-@media (max-width:480px){
-
-.container{
-padding:18px;
-}
-
-h3{
-font-size:18px;
-}
-
-input{
-font-size:15px;
-}
-
-}
-
 </style>
 
 </head>
-
-
 
 <body>
 
 <div class="container">
 
-<img src="logo.png" height="80">
+<img src="logo.png" class="logo">
+
+
 
 <h3>Evergreen E-Waste Recycling Management</h3>
+
+<h2 class="company-name" contenteditable="true"></h2>
 
 <label>Quantity</label>
 <input type="number" id="qty" oninput="calc()">
@@ -209,89 +158,86 @@ font-size:15px;
 <label>Rate</label>
 <input type="number" id="rate" oninput="calc()">
 
-<label>Received</label>
+<label>Received Amount</label>
 <input type="number" id="rcv" oninput="calc()">
+
+<label>TDS Percentage (1–10%)</label>
+<input type="number" id="tds_percent" value="1" min="1" max="10" oninput="calc()">
 
 <div class="result">Taxable Value: <span id="taxable">0</span></div>
 <div class="result">GST 18%: <span id="gst">0</span></div>
 <div class="result">Invoice Value: <span id="invoice">0</span></div>
-<div class="result">TDS 1%: <span id="tds">0</span></div>
+<div class="result"><span id="tds_label">TDS1%</span> : <span id="tds">0</span></div>
 <div class="result">Final Amount: <span id="final">0</span></div>
 
 <div class="balance">Balance Amount: <span id="balance">0</span></div>
 
 <div class="extra">More Quantity Possible: <span id="more_qty">0</span></div>
-<div class="extra">Extra Taxable From Balance: <span id="b_tax">0</span></div>
+<div class="extra">Extra Taxable: <span id="b_tax">0</span></div>
 <div class="extra">Extra GST 18%: <span id="b_gst">0</span></div>
-<div class="extra">Extra TDS 1%: <span id="b_tds">0</span></div>
+<div class="extra"><span id="b_tds_label">TDS1%</span> : <span id="b_tds">0</span></div>
 <div class="extra">Extra Invoice: <span id="b_invoice">0</span></div>
-
 <div class="extra">Remaining Amount: <span id="remain">0</span></div>
 
 <button class="no-print" onclick="window.print()">Print / Save PDF</button>
 
 </div>
 
-
-
 <script>
+const qtyEl=qty,rateEl=rate,rcvEl=rcv,tdsEl=tds_percent;
+const taxableEl=taxable,gstEl=gst,invoiceEl=invoice,tdsVal=tds,finalEl=final,balanceEl=balance;
+const bTax=b_tax,bGst=b_gst,bTds=b_tds,bInvoice=b_invoice,moreQty=more_qty,remainEl=remain;
+const tdsLabel=document.getElementById("tds_label");
+const bTdsLabel=document.getElementById("b_tds_label");
 
 function calc(){
 
-let qty=parseFloat(document.getElementById("qty").value)||0;
-let rate=parseFloat(document.getElementById("rate").value)||0;
-let rcv=parseFloat(document.getElementById("rcv").value)||0;
+let qty=+qtyEl.value||0;
+let rate=+rateEl.value||0;
+let rcv=+rcvEl.value||0;
+let tdsP=+tdsEl.value||1;
+
+if(tdsP<1)tdsP=1;
+if(tdsP>10)tdsP=10;
+tdsEl.value=tdsP;
+
+tdsLabel.innerText="TDS"+tdsP+"%";
+bTdsLabel.innerText="TDS"+tdsP+"%";
 
 let taxable=qty*rate;
 let gst=taxable*0.18;
 let invoice=taxable+gst;
-let tds=taxable*0.01;
+let tds=taxable*(tdsP/100);
 let final=invoice-tds;
 let balance=rcv-final;
 
-document.getElementById("taxable").innerText=taxable.toFixed(2);
-document.getElementById("gst").innerText=gst.toFixed(2);
-document.getElementById("invoice").innerText=invoice.toFixed(2);
-document.getElementById("tds").innerText=tds.toFixed(2);
-document.getElementById("final").innerText=final.toFixed(2);
-document.getElementById("balance").innerText=balance.toFixed(2);
+taxableEl.innerText=taxable.toFixed(2);
+gstEl.innerText=gst.toFixed(2);
+invoiceEl.innerText=invoice.toFixed(2);
+tdsVal.innerText=tds.toFixed(2);
+finalEl.innerText=final.toFixed(2);
+balanceEl.innerText=balance.toFixed(2);
 
-
-/* BALANCE SETTLEMENT */
-
-let b_tax=0;
-let b_gst=0;
-let b_tds=0;
-let b_invoice=0;
-let more_qty=0;
-let remain=0;
+/* BALANCE */
+let b_tax=0,b_gst=0,b_tds=0,b_invoice=0,more=0,remain=0;
 
 if(balance>0 && rate>0){
-
-let approx_tax=balance/1.17;
-
-more_qty=Math.floor(approx_tax/rate);
-
-b_tax=more_qty*rate;
+let approx=balance/1.17;
+more=Math.floor(approx/rate);
+b_tax=more*rate;
 b_gst=b_tax*0.18;
-b_tds=b_tax*0.01;
+b_tds=b_tax*(tdsP/100);
 b_invoice=b_tax+b_gst;
-
-let used_final=b_invoice-b_tds;
-
-remain=balance-used_final;
-
+remain=balance-(b_invoice-b_tds);
 }
 
-document.getElementById("b_tax").innerText=b_tax.toFixed(2);
-document.getElementById("b_gst").innerText=b_gst.toFixed(2);
-document.getElementById("b_tds").innerText=b_tds.toFixed(2);
-document.getElementById("b_invoice").innerText=b_invoice.toFixed(2);
-document.getElementById("more_qty").innerText=more_qty;
-document.getElementById("remain").innerText=remain.toFixed(2);
-
+bTax.innerText=b_tax.toFixed(2);
+bGst.innerText=b_gst.toFixed(2);
+bTds.innerText=b_tds.toFixed(2);
+bInvoice.innerText=b_invoice.toFixed(2);
+moreQty.innerText=more;
+remainEl.innerText=remain.toFixed(2);
 }
-
 </script>
 
 </body>
