@@ -110,7 +110,7 @@ button{
     <h2>Evergreen E-Waste Recycling Management</h2>
     <p>Settlement / Quotation Sheet</p>
 </div>
-
+<h4>To / For</h4>
 <div class="company"
      contenteditable="true"
      data-placeholder="ENTER COMPANY NAME">
@@ -145,7 +145,10 @@ button{
 <tr><th>Taxable Value</th><td id="taxable">0.00</td></tr>
 <tr><th>GST @18%</th><td id="gst">0.00</td></tr>
 <tr><th>Invoice Value</th><td id="invoice">0.00</td></tr>
-<tr><th>TDS</th><td id="tds">0.00</td></tr>
+<tr>
+  <th id="tdsLabel">TDS - 1%</th>
+  <td id="tds">0.00</td>
+</tr>
 <tr class="total"><th>Final Payable</th><td id="final">0.00</td></tr>
 </table>
 
@@ -155,7 +158,10 @@ button{
 <tr><th>Additional Quantity Possible</th><td id="more_qty">0</td></tr>
 <tr><th>Extra Taxable</th><td id="b_tax">0.00</td></tr>
 <tr><th>Extra GST @18%</th><td id="b_gst">0.00</td></tr>
-<tr><th>Extra TDS</th><td id="b_tds">0.00</td></tr>
+<tr>
+  <th id="bTdsLabel">Extra TDS - 1%</th>
+  <td id="b_tds">0.00</td>
+</tr>
 <tr class="total"><th>Remaining Amount</th><td id="remain">0.00</td></tr>
 </table>
 
@@ -185,16 +191,24 @@ function calc(){
     document.getElementById("final").innerText = final.toFixed(2);
     document.getElementById("balance").innerText = balance.toFixed(2);
 
-    let more = 0, bTax = 0, bGst = 0, bTds = 0, remain = 0;
+ let more = 0, bTax = 0, bGst = 0, bTds = 0, remain = 0;
 
-    if(balance > 0 && rate > 0){
-        const approx = balance / 1.18;
-        more = Math.floor(approx / rate);
-        bTax = more * rate;
-        bGst = bTax * 0.18;
-        bTds = bTax * (tdsP / 100);
-        remain = balance - ((bTax + bGst) - bTds);
-    }
+ document.getElementById("tdsLabel").innerText = `TDS - ${tdsP}%`;
+document.getElementById("bTdsLabel").innerText = `Extra TDS - ${tdsP}%`;
+
+if(balance > 0 && rate > 0){
+
+    // EFFECTIVE COST PER UNIT (GST - TDS ADJUSTED)
+    const effectivePerUnit = rate * (1 + 0.18 - (tdsP / 100));
+
+    more = Math.floor(balance / effectivePerUnit);
+
+    bTax = more * rate;
+    bGst = bTax * 0.18;
+    bTds = bTax * (tdsP / 100);
+
+    remain = balance - (bTax + bGst - bTds);
+}
 
     document.getElementById("more_qty").innerText = more;
     document.getElementById("b_tax").innerText = bTax.toFixed(2);
