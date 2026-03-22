@@ -1,243 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Evergreen Settlement Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settlement Calculator</title>
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
 body{
-font-family:Arial;
-background:linear-gradient(135deg,#0b1f26,#07141a);
-display:flex;
-justify-content:center;
-padding:20px;
-min-height:100vh;
-color:white;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f2f2f2;
+    padding:20px;
 }
 
+.company{
+    border:1px solid #000;
+    padding:8px;
+    margin-bottom:12px;
+    font-weight:bold;
+    min-height:22px;
+}
+
+/* Placeholder style */
+.company.placeholder{
+    color:#777;
+}
 .container{
-background:rgba(15,40,50,0.7);
-padding:25px;
-border-radius:14px;
-backdrop-filter:blur(12px);
-box-shadow:0 0 20px rgba(0,255,170,0.2);
-width:100%;
-max-width:520px;
-border:1px solid rgba(0,255,170,0.2);
+    max-width:800px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border:1px solid #000;
+}
+.header{text-align:center;margin-bottom:15px;}
+.header h2{margin:0;font-size:20px;}
+.header p{margin:4px 0;font-size:13px;}
+
+.company{
+    border:1px solid #000;
+    padding:8px;
+    margin-bottom:12px;
+    font-weight:bold;
 }
 
-/* LOGO */
-.logo{
-display:block;
-margin:auto;
-margin-bottom:12px;
-height:70px;
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:12px;
+}
+th,td{
+    border:1px solid #000;
+    padding:8px;
+    font-size:13px;
+}
+th{text-align:left;width:35%;}
+
+input,select{
+    width:100%;
+    border:none;
+    outline:none;
+    font-size:13px;
 }
 
-/* EDITABLE COMPANY NAME */
-.company-name{
-text-align:center;
-margin-bottom:14px;
-padding:10px;
-border:1px solid rgba(0,255,195,0.4);
-border-radius:8px;
-color:#bac700;
-
-outline:none;
-cursor:text;
+.section-title{
+    margin-top:18px;
+    font-weight:bold;
+    text-decoration:underline;
 }
 
-.company-name:empty:before{
-content:"Click to Enter Company Name";
-color:#7fffd4;
+.total{
+    font-weight:bold;
+    background:#f0f0f0;
 }
 
-/* TITLE */
-h3{
-text-align:center;
-margin-bottom:20px;
-color:#7fffd4;
-}
-
-/* LABEL */
-label{
-font-size:14px;
-font-weight:bold;
-color:#7fffd4;
-}
-
-/* INPUT */
-input{
-width:100%;
-padding:12px;
-margin:6px 0 16px;
-font-size:16px;
-border-radius:8px;
-border:1px solid #00ffc3;
-background:#081d24;
-color:white;
-outline:none;
-}
-
-/* RESULT */
-.result{
-background:linear-gradient(135deg,#0f3a42,#12535d);
-padding:12px;
-margin:6px 0;
-font-weight:bold;
-border-radius:8px;
-}
-
-/* BALANCE */
-.balance{
-background:linear-gradient(135deg,#009c68,#00d487);
-padding:14px;
-margin:12px 0;
-font-weight:bold;
-text-align:center;
-border-radius:10px;
-font-size:18px;
-}
-
-/* EXTRA */
-.extra{
-background:linear-gradient(135deg,#0d3138,#15464f);
-padding:12px;
-margin:6px 0;
-font-weight:bold;
-border-radius:8px;
-}
-
-/* BUTTON */
 button{
-width:100%;
-padding:14px;
-margin-top:15px;
-background:linear-gradient(135deg,#00b894,#00e0a8);
-border:none;
-border-radius:10px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
+    margin-top:15px;
+    padding:10px 18px;
+    font-size:14px;
 }
 
-/* PRINT */
 @media print{
-.no-print{display:none;}
-input{border:none;background:none;color:black;}
-.result,.extra,.balance{background:white;color:black;border:1px solid black;}
-body{background:white;color:black;}
+    body{background:white;padding:0;}
+    button{display:none;}
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<img src="logo.png" class="logo">
+<div class="header">
+    <h2>Evergreen E-Waste Recycling Management</h2>
+    <p>Settlement / Quotation Sheet</p>
+</div>
 
+<div class="company"
+     contenteditable="true"
+     data-placeholder="ENTER COMPANY NAME">
+    ENTER COMPANY NAME
+</div>
 
+<table>
+<tr><th>Quantity</th><td><input id="qty" type="number" oninput="calc()"></td></tr>
+<tr><th>Rate</th><td><input id="rate" type="number" oninput="calc()"></td></tr>
+<tr><th>Received Amount</th><td><input id="rcv" type="number" oninput="calc()"></td></tr>
+<tr>
+<th>TDS Percentage</th>
+<td>
+<select id="tds_percent" onchange="calc()">
+<option value="1">1%</option>
+<option value="2">2%</option>
+<option value="3">3%</option>
+<option value="4">4%</option>
+<option value="5">5%</option>
+<option value="6">6%</option>
+<option value="7">7%</option>
+<option value="8">8%</option>
+<option value="9">9%</option>
+<option value="10">10%</option>
+</select>
+</td>
+</tr>
+</table>
 
-<h3>Evergreen E-Waste Recycling Management</h3>
+<div class="section-title">Invoice Calculation</div>
+<table>
+<tr><th>Taxable Value</th><td id="taxable">0.00</td></tr>
+<tr><th>GST @18%</th><td id="gst">0.00</td></tr>
+<tr><th>Invoice Value</th><td id="invoice">0.00</td></tr>
+<tr><th>TDS</th><td id="tds">0.00</td></tr>
+<tr class="total"><th>Final Payable</th><td id="final">0.00</td></tr>
+</table>
 
-<h2 class="company-name" contenteditable="true"></h2>
+<div class="section-title">Balance Adjustment</div>
+<table>
+<tr><th>Balance Amount</th><td id="balance">0.00</td></tr>
+<tr><th>Additional Quantity Possible</th><td id="more_qty">0</td></tr>
+<tr><th>Extra Taxable</th><td id="b_tax">0.00</td></tr>
+<tr><th>Extra GST @18%</th><td id="b_gst">0.00</td></tr>
+<tr><th>Extra TDS</th><td id="b_tds">0.00</td></tr>
+<tr class="total"><th>Remaining Amount</th><td id="remain">0.00</td></tr>
+</table>
 
-<label>Quantity</label>
-<input type="number" id="qty" oninput="calc()">
-
-<label>Rate</label>
-<input type="number" id="rate" oninput="calc()">
-
-<label>Received Amount</label>
-<input type="number" id="rcv" oninput="calc()">
-
-<label>TDS Percentage (1–10%)</label>
-<input type="number" id="tds_percent" value="1" min="1" max="10" oninput="calc()">
-
-<div class="result">Taxable Value: <span id="taxable">0</span></div>
-<div class="result">GST 18%: <span id="gst">0</span></div>
-<div class="result">Invoice Value: <span id="invoice">0</span></div>
-<div class="result"><span id="tds_label">TDS1%</span> : <span id="tds">0</span></div>
-<div class="result">Final Amount: <span id="final">0</span></div>
-
-<div class="balance">Balance Amount: <span id="balance">0</span></div>
-
-<div class="extra">More Quantity Possible: <span id="more_qty">0</span></div>
-<div class="extra">Extra Taxable: <span id="b_tax">0</span></div>
-<div class="extra">Extra GST 18%: <span id="b_gst">0</span></div>
-<div class="extra"><span id="b_tds_label">TDS1%</span> : <span id="b_tds">0</span></div>
-<div class="extra">Extra Invoice: <span id="b_invoice">0</span></div>
-<div class="extra">Remaining Amount: <span id="remain">0</span></div>
-
-<button class="no-print" onclick="window.print()">Print / Save PDF</button>
+<button onclick="window.print()">Print / Save PDF</button>
 
 </div>
 
 <script>
-const qtyEl=qty,rateEl=rate,rcvEl=rcv,tdsEl=tds_percent;
-const taxableEl=taxable,gstEl=gst,invoiceEl=invoice,tdsVal=tds,finalEl=final,balanceEl=balance;
-const bTax=b_tax,bGst=b_gst,bTds=b_tds,bInvoice=b_invoice,moreQty=more_qty,remainEl=remain;
-const tdsLabel=document.getElementById("tds_label");
-const bTdsLabel=document.getElementById("b_tds_label");
-
 function calc(){
 
-let qty=+qtyEl.value||0;
-let rate=+rateEl.value||0;
-let rcv=+rcvEl.value||0;
-let tdsP=+tdsEl.value||1;
+    const qty = +document.getElementById("qty").value || 0;
+    const rate = +document.getElementById("rate").value || 0;
+    const rcv = +document.getElementById("rcv").value || 0;
+    const tdsP = +document.getElementById("tds_percent").value || 1;
 
-if(tdsP<1)tdsP=1;
-if(tdsP>10)tdsP=10;
-tdsEl.value=tdsP;
+    const taxable = qty * rate;
+    const gst = taxable * 0.18;
+    const invoice = taxable + gst;
+    const tds = taxable * (tdsP / 100);
+    const final = invoice - tds;
+    const balance = rcv - final;
 
-tdsLabel.innerText="TDS"+tdsP+"%";
-bTdsLabel.innerText="TDS"+tdsP+"%";
+    document.getElementById("taxable").innerText = taxable.toFixed(2);
+    document.getElementById("gst").innerText = gst.toFixed(2);
+    document.getElementById("invoice").innerText = invoice.toFixed(2);
+    document.getElementById("tds").innerText = tds.toFixed(2);
+    document.getElementById("final").innerText = final.toFixed(2);
+    document.getElementById("balance").innerText = balance.toFixed(2);
 
-let taxable=qty*rate;
-let gst=taxable*0.18;
-let invoice=taxable+gst;
-let tds=taxable*(tdsP/100);
-let final=invoice-tds;
-let balance=rcv-final;
+    let more = 0, bTax = 0, bGst = 0, bTds = 0, remain = 0;
 
-taxableEl.innerText=taxable.toFixed(2);
-gstEl.innerText=gst.toFixed(2);
-invoiceEl.innerText=invoice.toFixed(2);
-tdsVal.innerText=tds.toFixed(2);
-finalEl.innerText=final.toFixed(2);
-balanceEl.innerText=balance.toFixed(2);
+    if(balance > 0 && rate > 0){
+        const approx = balance / 1.18;
+        more = Math.floor(approx / rate);
+        bTax = more * rate;
+        bGst = bTax * 0.18;
+        bTds = bTax * (tdsP / 100);
+        remain = balance - ((bTax + bGst) - bTds);
+    }
 
-/* BALANCE */
-let b_tax=0,b_gst=0,b_tds=0,b_invoice=0,more=0,remain=0;
-
-if(balance>0 && rate>0){
-let approx=balance/1.17;
-more=Math.floor(approx/rate);
-b_tax=more*rate;
-b_gst=b_tax*0.18;
-b_tds=b_tax*(tdsP/100);
-b_invoice=b_tax+b_gst;
-remain=balance-(b_invoice-b_tds);
+    document.getElementById("more_qty").innerText = more;
+    document.getElementById("b_tax").innerText = bTax.toFixed(2);
+    document.getElementById("b_gst").innerText = bGst.toFixed(2);
+    document.getElementById("b_tds").innerText = bTds.toFixed(2);
+    document.getElementById("remain").innerText = remain.toFixed(2);
 }
 
-bTax.innerText=b_tax.toFixed(2);
-bGst.innerText=b_gst.toFixed(2);
-bTds.innerText=b_tds.toFixed(2);
-bInvoice.innerText=b_invoice.toFixed(2);
-moreQty.innerText=more;
-remainEl.innerText=remain.toFixed(2);
-}
+
+const company = document.querySelector(".company");
+
+// initial placeholder state
+company.classList.add("placeholder");
+
+company.addEventListener("focus", () => {
+    if(company.classList.contains("placeholder")){
+        company.innerText = "";
+        company.classList.remove("placeholder");
+    }
+});
+
+company.addEventListener("blur", () => {
+    if(company.innerText.trim() === ""){
+        company.innerText = company.dataset.placeholder;
+        company.classList.add("placeholder");
+    }
+});
 </script>
 
 </body>
